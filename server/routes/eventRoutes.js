@@ -1,39 +1,50 @@
 const express = require('express');
 const router = express.Router();
-const { check } = require('express-validator');
-const eventController = require('../controllers/eventController');
 const authMiddleware = require('../middleware/authMiddleware');
 const Event = require('../models/Event');
 
-// ✅ Admin-specific route to fetch events they organized
+// GET /api/events/admin/:adminId
 router.get('/admin/:adminId', async (req, res) => {
   try {
     const adminId = req.params.adminId;
     const events = await Event.find({ createdBy: adminId });
     res.json(events);
   } catch (err) {
-    console.error(err);
-    res.status(500).json({ msg: 'Server error' });
+    console.error('Error fetching admin events:', err);
+    res.status(500).json({ message: 'Failed to fetch admin events' });
   }
 });
 
-router.post("/", async (req, res) => {
-  const { title, description, date, image, createdBy } = req.body;
-  const newEvent = new Event({
-    title,
-    description,
-    date,
-    image,
-    createdBy,
-  });
+// POST /api/events
+router.post('/',authMiddleware, async (req, res) => {
+  const { name, date, description, location, tags } = req.body;
 
   try {
-    const savedEvent = await newEvent.save();
-    res.status(201).json(savedEvent);
+    const newEvent = new Event({
+      name,
+      date,
+      description,
+      location,
+      tags,
+      // Optional: createdBy: req.user?.id if using authentication
+    });
+
+    await newEvent.save();
+    res.status(201).json(newEvent);
   } catch (err) {
-    res.status(400).json({ message: err.message });
+    console.error('Error creating event:', err);
+    res.status(500).json({ message: 'Failed to create event' });
   }
 });
 
+// GET /api/events
+router.get('/', authMiddleware, async (req, res) => {
+  try {
+    const events = await Event.find();
+    res.json(events);
+  } catch (err) {
+    res.status(500).json({ message: 'Error fetching events' });
+  }
+});
 
 module.exports = router;
