@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import { useHistory } from 'react-router-dom';
+import './Login.css';
 
 const Login = () => {
   const history = useHistory();
@@ -17,12 +18,9 @@ const Login = () => {
 
     try {
       const res = await axios.post('http://localhost:5000/api/users/login', formData);
-
       const { token, user } = res.data;
 
-     // localStorage.setItem('token', token);
-     
-      localStorage.setItem('token', res.data.token);
+      localStorage.setItem('token', token);
       localStorage.setItem('user', JSON.stringify(user));
 
       if (user.role === 'admin') {
@@ -36,101 +34,36 @@ const Login = () => {
   };
 
   return (
-    <div style={styles.page}>
-      <div style={styles.container}>
-        <h2 style={styles.title}>Login</h2>
-        <form onSubmit={handleSubmit} style={styles.form}>
-          <label style={styles.label}>Email</label>
+    <div className="login-page">
+      <div className="login-container">
+        <h2 className="login-title">Login</h2>
+        <form onSubmit={handleSubmit} className="login-form">
+          <label className="login-label">Email</label>
           <input
             type="email"
             name="email"
             value={formData.email}
             onChange={handleChange}
             required
-            style={styles.input}
+            className="login-input"
           />
 
-          <label style={styles.label}>Password</label>
+          <label className="login-label">Password</label>
           <input
             type="password"
             name="password"
             value={formData.password}
             onChange={handleChange}
             required
-            style={styles.input}
+            className="login-input"
           />
 
-          <button type="submit" style={styles.button}>Login</button>
-          {error && <p style={styles.error}>{error}</p>}
+          <button type="submit" className="login-button">Login</button>
+          {error && <p className="login-error">{error}</p>}
         </form>
       </div>
     </div>
   );
-};
-
-const styles = {
-  page: {
-    height: '100vh',
-    width: '100vw',
-    background: 'linear-gradient(135deg, #6a11cb 0%, #2575fc 100%)',
-    display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'center',
-    padding: '20px',
-    boxSizing: 'border-box',
-    fontFamily: '"Segoe UI", Tahoma, Geneva, Verdana, sans-serif',
-  },
-  container: {
-    maxWidth: '400px',
-    width: '100%',
-    padding: '40px 30px',
-    borderRadius: '15px',
-    boxShadow: '0 15px 40px rgba(0,0,0,0.3)',
-    backgroundColor: 'rgba(255, 255, 255, 0.95)',
-    textAlign: 'center',
-  },
-  title: {
-    fontSize: '2.5rem',
-    fontWeight: '700',
-    color: '#333',
-    marginBottom: '20px',
-  },
-  form: {
-    display: 'flex',
-    flexDirection: 'column',
-  },
-  label: {
-    marginTop: '10px',
-    marginBottom: '5px',
-    fontWeight: 'bold',
-    color: '#555',
-  },
-  input: {
-    padding: '10px',
-    borderRadius: '5px',
-    border: '1px solid #ccc',
-    fontSize: '14px',
-    marginBottom: '15px',
-  },
-  button: {
-    marginTop: '20px',
-    padding: '12px',
-    backgroundColor: '#4CAF50',
-    color: 'white',
-    fontWeight: 'bold',
-    border: 'none',
-    borderRadius: '30px',
-    cursor: 'pointer',
-    transition: 'background-color 0.3s, transform 0.2s',
-  },
-  buttonHover: {
-    backgroundColor: '#45a049',
-    transform: 'scale(1.05)',
-  },
-  error: {
-    color: 'red',
-    marginTop: '10px',
-  },
 };
 
 export default Login;
