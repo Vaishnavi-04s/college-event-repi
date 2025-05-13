@@ -26,7 +26,7 @@ const Login = () => {
       if (user.role === 'admin') {
         history.push('/admin-dashboard');
       } else {
-        history.push('/events');
+        history.push('/user-dashboard');
       }
     } catch (err) {
       setError(err.response?.data?.msg || 'Login failed');

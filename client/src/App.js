@@ -8,6 +8,7 @@ import Login from './pages/Login';
 import Register from './pages/Register';
 import Home from './pages/Home';
 import AdminDashboard from './pages/AdminDashboard';
+import UserDashboard from './pages/UserDashboard';
 import './App.css';
 
 const AppWrapper = () => {
@@ -21,10 +22,13 @@ const AppWrapper = () => {
         <Route exact path="/" component={Home} />
         <Route path="/register" component={Register} />
         <Route path="/login" component={Login} />
-        <Route path="/admin-dashboard" component={AdminDashboard} />
+        <Route exact path="/admin-dashboard" component={AdminDashboard} />
         <Route path="/events" component={Events} />
         <Route path="/events/:id" component={EventDetail} />
         <Route path="/create-event" component={CreateEvent} />
+        <Route path="/user-dashboard" component={UserDashboard} />
+        <Route path="/admin-dashboard/edit/:id" component={AdminDashboard} />
+
       </Switch>
     </>
   );

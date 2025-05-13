@@ -34,7 +34,7 @@ router.post('/register', async (req, res) => {
   }
 });
 
-// Login Route
+/// Login Route
 router.post('/login', async (req, res) => {
   const { email, password } = req.body;
 
@@ -45,21 +45,28 @@ router.post('/login', async (req, res) => {
     const isMatch = await bcrypt.compare(password, user.password);
     if (!isMatch) return res.status(400).json({ msg: 'Invalid credentials' });
 
+    // ✅ Create payload and sign token
+    const payload = { user: { id: user._id } };
+    const token = jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: '1h' });
+
+    // ✅ Return token along with user info
     res.status(200).json({
       msg: 'Login successful',
+      token,
       user: {
         id: user._id,
         name: user.name,
         email: user.email,
         interests: user.interests,
-        role: user.role
-      }
+        role: user.role,
+      },
     });
   } catch (err) {
     console.error(err);
     res.status(500).json({ msg: 'Server error' });
   }
 });
+
 
 
 

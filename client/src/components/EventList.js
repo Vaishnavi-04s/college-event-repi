@@ -1,7 +1,5 @@
-import React, { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
-import { getEvents } from '../services/api'; 
 
+/*
 const EventList = () => {
   const [events, setEvents] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -47,28 +45,84 @@ const EventList = () => {
   );
 };
 
-const styles = {
-  container: {
-    maxWidth: '800px',
-    margin: '0 auto',
-    padding: '20px',
-    fontFamily: 'Arial, sans-serif',
-  },
-  list: {
-    listStyleType: 'none',
-    padding: 0,
-  },
-  item: {
-    padding: '20px',
-    marginBottom: '20px',
-    border: '1px solid #ddd',
-    borderRadius: '8px',
-    backgroundColor: '#f9f9f9',
-  },
-  title: {
-    textDecoration: 'none',
-    color: '#333',
-  },
+import React from 'react';
+import { Link } from 'react-router-dom';
+import './EventList.css'; // Import the CSS
+
+const EventList = ({ events,onEdit }) => {
+  if (!events) return <div>Loading events...</div>;
+
+  return (
+    <div className="event-container">
+      <h2>Upcoming Events</h2>
+      {events.length === 0 ? (
+        <p>No events found.</p>
+      ) : (
+        <ul className="event-list">
+          {events.map((event) => (
+            <li key={event._id} className="event-item">
+              <Link to={`/events/${event._id}`} className="event-title">
+                <h3>{event.name}</h3>
+              </Link>
+
+              <p><strong>Date:</strong> {new Date(event.date).toLocaleDateString()}</p>
+              <p><strong>Location:</strong> {event.location}</p>
+              <p><strong>Description:</strong> {event.description}</p>
+              <p><strong>Tags:</strong> {event.tags?.join(', ')}</p>
+
+              <button onClick={() => handleEdit(event._id)} className="edit-button">
+               Edit
+              </button>
+            </li>
+          ))}
+        </ul>
+      )}
+    </div>
+  );
+};
+
+export default EventList; */
+
+import React from 'react';
+import { Link } from 'react-router-dom';
+import './EventList.css'; // Import the CSS styles
+
+const EventList = ({ events, onEdit }) => {
+  if (!events) return <div>Loading events...</div>;
+
+  return (
+    <div className="event-container">
+      <h2>Upcoming Events</h2>
+
+      {events.length === 0 ? (
+        <p>No events found.</p>
+      ) : (
+        <ul className="event-list">
+          {events.map((event) => (
+            <li key={event._id} className="event-item">
+              <Link to={`/events/${event._id}`} className="event-title">
+                <h3>{event.name}</h3>
+              </Link>
+
+              <p><strong>Date:</strong> {new Date(event.date).toLocaleDateString()}</p>
+              <p><strong>Location:</strong> {event.location}</p>
+              <p><strong>Description:</strong> {event.description}</p>
+              <p><strong>Tags:</strong> {event.tags?.join(', ')}</p>
+
+              <button
+                onClick={() => onEdit(event._id)}
+                className="edit-button"
+                style={{ marginTop: '10px' }}
+              >
+                Edit
+              </button>
+            </li>
+          ))}
+        </ul>
+      )}
+    </div>
+  );
 };
 
 export default EventList;
+

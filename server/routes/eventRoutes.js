@@ -3,6 +3,18 @@ const router = express.Router();
 const authMiddleware = require('../middleware/authMiddleware');
 const Event = require('../models/Event');
 
+//GET /api/events/:id 
+router.get('/:id', async (req, res) => {
+try {
+const event = await Event.findById(req.params.id);
+if (!event) return res.status(404).json({ message: 'Event not found' });
+res.json(event);
+} catch (err) {
+console.error('Error fetching event by ID:', err);
+res.status(500).json({ message: 'Failed to fetch event' });
+}
+});
+
 // GET /api/events/admin/:adminId
 router.get('/admin/:adminId', async (req, res) => {
   try {
@@ -46,5 +58,17 @@ router.get('/', authMiddleware, async (req, res) => {
     res.status(500).json({ message: 'Error fetching events' });
   }
 });
+
+// PUT /api/events/:id
+router.put('/:id', async (req, res) => {
+  try {
+    const updatedEvent = await Event.findByIdAndUpdate(req.params.id, req.body, { new: true });
+    if (!updatedEvent) return res.status(404).send('Event not found');
+    res.json(updatedEvent);
+  } catch (err) {
+    res.status(500).send('Server error');
+  }
+});
+
 
 module.exports = router;

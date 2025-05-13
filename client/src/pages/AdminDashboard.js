@@ -1,6 +1,10 @@
+
 import React, { useEffect, useState } from 'react';
+import { useHistory, useParams } from 'react-router-dom';
 import axios from 'axios';
-import './AdminDashboard.css'; // Import CSS
+import EventForm from '../components/EventForm';
+import EventList from '../components/EventList';
+import './AdminDashboard.css';
 
 const AdminDashboard = () => {
   const [events, setEvents] = useState([]);
@@ -12,7 +16,10 @@ const AdminDashboard = () => {
     tags: [],
   });
   const [message, setMessage] = useState('');
+  const { id } = useParams(); // Get event id if available
+  const history = useHistory();
 
+  // Fetch events
   const fetchEvents = async () => {
     const token = localStorage.getItem('token');
     if (!token) {
@@ -21,7 +28,7 @@ const AdminDashboard = () => {
     }
 
     try {
-      const res = await axios.get('http://localhost:5000/api/events', {
+      const res = await axios.get(`http://localhost:5000/api/events`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -34,8 +41,24 @@ const AdminDashboard = () => {
   };
 
   useEffect(() => {
-    fetchEvents();
-  }, []);
+  if (id) {
+    axios.get(`http://localhost:5000/api/events/${id}`)
+      .then(res => {
+        const event= res.data;
+         const formattedDate = event.date ? new Date(event.date).toISOString().split('T')[0] : '';
+         setEventData({
+           ...event,
+           date: formattedDate,
+         });
+        })
+      .catch(err => {
+        console.error('Error fetching event data for editing:', err);
+        setMessage('Failed to fetch event for editing');
+      });
+  } else {
+    fetchEvents(); // For new event creation
+  }
+}, [id]);
 
   const handleChange = (e) => {
     if (e.target.name === 'tags') {
@@ -57,105 +80,52 @@ const AdminDashboard = () => {
     }
 
     try {
-      await axios.post('http://localhost:5000/api/events', eventData, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-      setMessage('Event created successfully!');
+      if (id) {
+        // If in edit mode, update the event
+        await axios.put(`http://localhost:5000/api/events/${id}`, eventData, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+        setMessage('Event updated successfully!');
+      } else {
+        // Create a new event
+        await axios.post('http://localhost:5000/api/events', eventData, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+        setMessage('Event created successfully!');
+      }
       setEventData({ name: '', date: '', description: '', location: '', tags: [] });
       fetchEvents();
+      history.push('/admin-dashboard');
     } catch (err) {
       console.error('Axios Error:', err);
-      if (err.response) {
-        setMessage(`Failed: ${err.response.data.message || 'Unknown error'}`);
-      } else {
-        setMessage('An error occurred while creating the event');
-      }
+      setMessage('An error occurred while saving the event');
     }
   };
 
   return (
     <div className="container">
-      <h2>Create New Event</h2>
-
-      <form onSubmit={handleSubmit} className="form">
-        <label className="label">Event Name</label>
-        <input
-          type="text"
-          name="name"
-          value={eventData.name}
-          onChange={handleChange}
-          required
-          className="input"
-        />
-
-        <label className="label">Event Date</label>
-        <input
-          type="date"
-          name="date"
-          value={eventData.date}
-          onChange={handleChange}
-          required
-          className="input"
-        />
-
-        <label className="label">Description</label>
-        <textarea
-          name="description"
-          value={eventData.description}
-          onChange={handleChange}
-          required
-          className="textarea"
-        />
-
-        <label className="label">Location</label>
-        <input
-          type="text"
-          name="location"
-          value={eventData.location}
-          onChange={handleChange}
-          required
-          className="input"
-        />
-
-        <label className="label">Tags</label>
-        <select
-          multiple
-          name="tags"
-          value={eventData.tags}
-          onChange={handleChange}
-          className="input"
-          style={{ height: '100px' }}
-        >
-          <option value="Coding">Coding</option>
-          <option value="AI">AI</option>
-          <option value="Robotics">Robotics</option>
-          <option value="IOT">IOT</option>
-          <option value="Sports">Sports</option>
-        </select>
-
-        <button type="submit" className="button">
-          Create Event
-        </button>
-      </form>
-
+      <h2>{id ? 'Edit Event' : 'Create New Event'}</h2> {/* Conditional Heading */}
+      <EventForm
+        eventData={eventData}
+        handleChange={handleChange}
+        handleSubmit={handleSubmit}
+        isEdit={!!id}
+      />
       {message && (
-        <p style={{ marginTop: '10px', color: message.includes('failed') ? 'red' : 'green' }}>
+        <p style={{ marginTop: '10px', color: message.includes('Failed') ? 'red' : 'green' }}>
           {message}
         </p>
       )}
-
       <h3 style={{ marginTop: '40px' }}>All Events</h3>
-      <ul>
-        {events.map((event) => (
-          <li key={event._id} className="eventItem">
-            <strong>{event.name}</strong> — {new Date(event.date).toLocaleDateString()}
-          </li>
-        ))}
-      </ul>
+      <EventList events={events} onEdit={(eventId) => history.push(`/admin-dashboard/edit/${eventId}`)} />
     </div>
   );
 };
 
 export default AdminDashboard;
+
+
