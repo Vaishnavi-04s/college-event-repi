@@ -4,6 +4,7 @@ const router = express.Router();
 const User = require('../models/User');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
+const { sendRegistrationEmail } = require('../utils/emailService');
 
 // Register Route
 router.post('/register', async (req, res) => {
@@ -27,6 +28,9 @@ router.post('/register', async (req, res) => {
     }
 
     await newUser.save();
+
+    await sendRegistrationEmail(email, name);
+
     res.status(201).json({ msg: 'User registered successfully' });
   } catch (err) {
     console.error(err);

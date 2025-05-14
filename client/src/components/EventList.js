@@ -87,8 +87,9 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import './EventList.css'; // Import the CSS styles
 
-const EventList = ({ events, onEdit }) => {
+const EventList = ({ events, onEdit, onDelete }) => {
   if (!events) return <div>Loading events...</div>;
+
 
   return (
     <div className="event-container">
@@ -116,6 +117,9 @@ const EventList = ({ events, onEdit }) => {
               >
                 Edit
               </button>
+
+              <button onClick={() => onDelete(event._id)} className="delete-btn" style={{ marginTop: '10px' }}>Delete</button>
+                
             </li>
           ))}
         </ul>

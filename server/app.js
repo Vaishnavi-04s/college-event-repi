@@ -20,6 +20,8 @@ app.use(express.json()); // To parse JSON request bodies
 // Routes
 app.use('/api/users', userRoutes); 
 app.use('/api/events', eventRoutes);
+
+
 // MongoDB connection
 mongoose.connect('mongodb://localhost:27017/college-event', {
   useNewUrlParser: true,

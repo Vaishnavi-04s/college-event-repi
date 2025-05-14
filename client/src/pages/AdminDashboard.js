@@ -106,6 +106,31 @@ const AdminDashboard = () => {
     }
   };
 
+  const handleDelete = async (eventId) => {
+     console.log('Deleting event with ID:', eventId);
+  const token = localStorage.getItem('token');
+  if (!token) {
+    setMessage('You must be logged in to delete an event.');
+    return;
+  }
+
+  if (!window.confirm('Are you sure you want to delete this event?')) return;
+
+  try {
+    await axios.delete(`http://localhost:5000/api/events/${eventId}`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    setMessage('Event deleted successfully!');
+    fetchEvents();
+  } catch (err) {
+    console.error('Error deleting event:', err);
+    setMessage('Failed to delete event');
+  }
+};
+
+
   return (
     <div className="container">
       <h2>{id ? 'Edit Event' : 'Create New Event'}</h2> {/* Conditional Heading */}
@@ -121,7 +146,12 @@ const AdminDashboard = () => {
         </p>
       )}
       <h3 style={{ marginTop: '40px' }}>All Events</h3>
-      <EventList events={events} onEdit={(eventId) => history.push(`/admin-dashboard/edit/${eventId}`)} />
+      <EventList 
+       events={events}
+       onEdit={(eventId) => history.push(`/admin-dashboard/edit/${eventId}`)}
+       onDelete={handleDelete}
+      />
+
     </div>
   );
 };

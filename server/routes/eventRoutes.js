@@ -53,6 +53,7 @@ router.post('/',authMiddleware, async (req, res) => {
 router.get('/', authMiddleware, async (req, res) => {
   try {
     const events = await Event.find();
+     console.log('Fetched events:', events); // ← check this output
     res.json(events);
   } catch (err) {
     res.status(500).json({ message: 'Error fetching events' });
@@ -69,6 +70,26 @@ router.put('/:id', async (req, res) => {
     res.status(500).send('Server error');
   }
 });
+
+// DELETE /api/events/:id
+// Inside your route file (e.g., events.js)
+router.delete('/:id', authMiddleware, async (req, res) => {
+  try {
+    const eventId = req.params.id;
+    const event = await Event.findById(eventId);
+
+    if (!event) {
+      return res.status(404).json({ message: 'Event not found' });
+    }
+
+    await event.remove(); // Remove the event from the database
+    res.status(200).json({ message: 'Event deleted successfully' });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: 'Error deleting event' });
+  }
+});
+
 
 
 module.exports = router;

@@ -1,6 +1,7 @@
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const User = require('../models/User');
+const nodemailer = require('nodemailer');
 require('dotenv').config();
 
 exports.loginUser = async (req, res) => {
@@ -44,3 +45,4 @@ exports.loginUser = async (req, res) => {
     res.status(500).json({ error: 'Server error' });
   }
 };
+
