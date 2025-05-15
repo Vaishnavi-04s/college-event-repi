@@ -1,16 +1,12 @@
 // backend/app.js
+require('dotenv').config();
 const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
 const userRoutes = require('./routes/userRoutes'); // 👈 Make sure this path is correct
 const eventRoutes = require('./routes/eventRoutes');
-
-
 const app = express();
 const PORT = 5000;
-
-
-require('dotenv').config();
 
 
 // Middleware

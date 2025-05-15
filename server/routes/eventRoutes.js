@@ -2,6 +2,8 @@ const express = require('express');
 const router = express.Router();
 const authMiddleware = require('../middleware/authMiddleware');
 const Event = require('../models/Event');
+const { sendRegistrationEmail } = require('../utils/emailService');
+const User = require('../models/User');
 
 //GET /api/events/:id 
 router.get('/:id', async (req, res) => {
@@ -28,7 +30,7 @@ router.get('/admin/:adminId', async (req, res) => {
 });
 
 // POST /api/events
-router.post('/',authMiddleware, async (req, res) => {
+router.post('/', authMiddleware, async (req, res) => {
   const { name, date, description, location, tags } = req.body;
 
   try {
@@ -38,10 +40,24 @@ router.post('/',authMiddleware, async (req, res) => {
       description,
       location,
       tags,
-      // Optional: createdBy: req.user?.id if using authentication
     });
 
     await newEvent.save();
+
+    // Find users with matching tags
+    const matchingUsers = await User.find({
+      tags: { $in: tags }
+    });
+
+    // Send email notifications
+    for (const user of matchingUsers) {
+      try {
+        await sendRegistrationEmail(user.email, user.name, newEvent.name); // You can customize this to include event info
+      } catch (err) {
+        console.error(`Failed to send email to ${user.email}:`, err);
+      }
+    }
+
     res.status(201).json(newEvent);
   } catch (err) {
     console.error('Error creating event:', err);
