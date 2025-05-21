@@ -106,6 +106,32 @@ router.delete('/:id', authMiddleware, async (req, res) => {
   }
 });
 
+// POST /api/events/:id/notify
+router.post('/:id/notify', authMiddleware, async (req, res) => {
+  try {
+    const event = await Event.findById(req.params.id);
+    if (!event) {
+      return res.status(404).json({ message: 'Event not found' });
+    }
+
+    const matchingUsers = await User.find({
+      tags: { $in: event.tags }
+    });
+
+    for (const user of matchingUsers) {
+      try {
+        await sendRegistrationEmail(user.email, user.name, event.name); // You can modify to include more info
+      } catch (err) {
+        console.error(`Failed to send email to ${user.email}:`, err);
+      }
+    }
+
+    res.status(200).json({ message: 'Notifications sent successfully' });
+  } catch (err) {
+    console.error('Error in /notify route:', err);
+    res.status(500).json({ message: 'Failed to send notifications' });
+  }
+});
 
 
 module.exports = router;

@@ -129,6 +129,29 @@ const AdminDashboard = () => {
     setMessage('Failed to delete event');
   }
 };
+const handleNotify = async (eventId) => {
+  const token = localStorage.getItem('token');
+  if (!token) {
+    setMessage('You must be logged in to send notifications.');
+    return;
+  }
+
+  try {
+    await axios.post(
+      `http://localhost:5000/api/events/${eventId}/notify`,
+      {},
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+    setMessage('Notifications sent successfully!');
+  } catch (err) {
+    console.error('Failed to send notifications:', err);
+    setMessage('Failed to send notifications.');
+  }
+};
 
 
   return (
@@ -150,6 +173,8 @@ const AdminDashboard = () => {
        events={events}
        onEdit={(eventId) => history.push(`/admin-dashboard/edit/${eventId}`)}
        onDelete={handleDelete}
+      showActions={true}
+      onNotify={handleNotify}
       />
 
     </div>
