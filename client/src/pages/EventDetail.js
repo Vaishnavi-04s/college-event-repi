@@ -13,12 +13,17 @@ const EventDetail = () => {
         const data = await getEventById(id);
         setEvent(data);
       } catch (err) {
+<<<<<<< HEAD
         console.error('Failed to fetch event:', err.message || err);
         setEvent(null);
+=======
+        console.error('Failed to fetch event:', err);
+>>>>>>> f8a27351c7c780de484c270ab4593b3dd9588587
       } finally {
         setLoading(false);
       }
     };
+<<<<<<< HEAD
 
     fetchEvent();
   }, [id]);
@@ -184,10 +189,26 @@ const EventDetail = () => {
           </div>
         </div>
       </div>
+=======
+    fetchEvent();
+  }, [id]);
+
+  if (loading) return <div>Loading...</div>;
+  if (!event) return <div>Event not found</div>;
+
+  return (
+    <div className="event-detail">
+      <h2>{event.title}</h2>
+      <p>{event.description}</p>
+      <p>Date: {new Date(event.dateTime).toLocaleString()}</p>
+      <p>Venue: {event.venue}</p>
+      <button onClick={() => registerForEvent(event._id)}>Register</button>
+>>>>>>> f8a27351c7c780de484c270ab4593b3dd9588587
     </div>
   );
 };
 
+<<<<<<< HEAD
 const infoBox = {
   backgroundColor: '#f8f9fa',
   padding: '1rem',
@@ -210,3 +231,6 @@ const sectionHeadingStyle = {
 };
 
 export default EventDetail;
+=======
+export default EventDetail;
+>>>>>>> f8a27351c7c780de484c270ab4593b3dd9588587

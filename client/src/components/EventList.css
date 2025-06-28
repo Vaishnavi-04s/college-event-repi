@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 .event-list-container {
   padding: 2rem;
   text-align: center;
@@ -56,4 +57,31 @@
 
 .event-info p strong {
   color: #444;
+=======
+/* EventList.css */
+
+.event-container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
+  font-family: Arial, sans-serif;
+}
+
+.event-list {
+  list-style-type: none;
+  padding: 0;
+}
+
+.event-item {
+  padding: 20px;
+  margin-bottom: 20px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  background-color: #f9f9f9;
+}
+
+.event-title {
+  text-decoration: none;
+  color: #333;
+>>>>>>> f8a27351c7c780de484c270ab4593b3dd9588587
 }

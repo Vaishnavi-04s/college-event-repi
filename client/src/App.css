@@ -17,7 +17,11 @@
   background-color: #282c34;
   min-height: 100vh;
   display: flex;
+<<<<<<< HEAD
   flex-direction: row;
+=======
+  flex-direction: column;
+>>>>>>> f8a27351c7c780de484c270ab4593b3dd9588587
   align-items: center;
   justify-content: center;
   font-size: calc(10px + 2vmin);

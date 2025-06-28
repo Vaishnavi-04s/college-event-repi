@@ -16,7 +16,10 @@
     "express-validator": "^6.15.0",
     "jsonwebtoken": "^8.5.1",
     "mongoose": "^6.11.3",
+<<<<<<< HEAD
     "multer": "^2.0.0",
+=======
+>>>>>>> f8a27351c7c780de484c270ab4593b3dd9588587
     "nodemailer": "^6.9.1"
   },
   "devDependencies": {

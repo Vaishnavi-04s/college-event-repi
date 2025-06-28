@@ -37,4 +37,8 @@ const EventParticipants = () => {
   );
 };
 
+<<<<<<< HEAD
 export default EventParticipants;
+=======
+export default EventParticipants;
+>>>>>>> f8a27351c7c780de484c270ab4593b3dd9588587

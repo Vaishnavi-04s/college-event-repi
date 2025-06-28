@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 const express = require('express');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
@@ -56,6 +57,30 @@ router.post('/login', async (req, res) => {
   } catch (err) {
     console.error(err);
     res.status(500).json({ message: 'Server error' });
+=======
+const express = require("express");
+const router = express.Router();
+const bcrypt = require("bcryptjs");
+const jwt = require("jsonwebtoken");
+const User = require("../models/User");
+
+router.post("/register", async (req, res) => {
+  try {
+    const { name, email, password, interests } = req.body;
+
+    const hashedPassword = await bcrypt.hash(password, 10);
+    const newUser = new User({
+      name,
+      email,
+      password: hashedPassword,
+      interests
+    });
+
+    await newUser.save();
+    res.status(201).json({ message: "User registered successfully." });
+  } catch (error) {
+    res.status(500).json({ error: "Registration failed." });
+>>>>>>> f8a27351c7c780de484c270ab4593b3dd9588587
   }
 });
 

@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 // Events.js
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
@@ -28,3 +29,18 @@ const Events = () => {
 };
 
 export default Events;
+=======
+import React from 'react';
+import EventList from '../components/EventList';
+
+const Events = () => {
+  return (
+    <div className="events-page">
+      <h1>All Events</h1>
+      <EventList></EventList>
+    </div>
+  );
+};
+
+export default Events;
+>>>>>>> f8a27351c7c780de484c270ab4593b3dd9588587
