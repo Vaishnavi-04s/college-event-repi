@@ -1,0 +1,159 @@
+/* Reset */
+* {
+  box-sizing: border-box;
+  margin: 0px;
+  padding: 0px;
+}
+
+body, html {
+  height: 100%;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-image: url('../Assets/bg-login.jpg'); /* adjust path as needed */
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+
+/* Center container */
+.login-page {
+  display: flex;
+  height: 700px;
+  width: 1100px;
+  margin: auto;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  box-shadow: 0 15px 40px rgba(0,0,0,0.2);
+  border-radius: 20px;
+  overflow: hidden;
+}
+
+/* Left panel */
+.login-left {
+  width: 650px;
+  height: 700px;
+  background-image: url('../Assets/DataSciencelogo.jpg'); /* Update path if needed */
+  background-size: cover;
+  background-position: center;
+  color: white;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 30px;
+  text-align: center;
+}
+
+.login-left h1 {
+  font-size: 2.5rem;
+  margin-bottom: 20px;
+  text-shadow: 1px 1px 5px rgba(0,0,0,0.7);
+}
+
+.login-left p {
+  font-size: 1.2rem;
+  line-height: 1.4;
+  text-shadow: 1px 1px 5px rgba(0,0,0,0.7);
+}
+
+/* Right login card */
+.login-right {
+  width: 550px;
+  height: 700px;
+  background: white;
+  padding: 40px 30px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  border-top-right-radius: 20px;
+  border-bottom-right-radius: 20px;
+}
+
+.login-title {
+  font-size: 2rem;
+  font-weight: 700;
+  color: #333;
+  margin-bottom: 30px;
+  text-align: center;
+}
+
+/* Form */
+.login-form {
+  display: flex;
+  flex-direction: column;
+}
+
+.login-label {
+  margin-top: 18px;
+  margin-bottom: 6px;
+  font-size: 16px;
+  font-weight: 600;
+  color: #333;
+}
+
+.login-input {
+  padding: 12px;
+  border-radius: 10px;
+  border: 1px solid #ccc;
+  margin-bottom: 20px;
+  font-size: 15px;
+  transition: 0.3s ease;
+}
+
+.login-input:focus {
+  border-color: #2575fc;
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(37, 117, 252, 0.2);
+}
+
+.login-button {
+  padding: 14px;
+  background-color: #2575fc;
+  color: white;
+  border: none;
+  border-radius: 25px;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.login-button:hover {
+  background-color: #1e63d6;
+  transform: translateY(-2px);
+}
+
+/* Error message */
+.login-error {
+  color: red;
+  margin-top: 10px;
+  font-size: 14px;
+  text-align: center;
+}
+
+/* Responsive */
+@media (max-width: 900px) {
+  .login-page {
+    flex-direction: column;
+    width: 90vw;
+    height: auto;
+    border-radius: 20px;
+  }
+
+  .login-left, .login-right {
+    width: 100%;
+    height: auto;
+    border-radius: 20px;
+    padding: 20px;
+  }
+
+  .login-right {
+    border-radius: 0 0 20px 20px;
+  }
+
+  .login-left {
+    border-radius: 20px 20px 0 0;
+  }
+}

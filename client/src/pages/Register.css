@@ -1,0 +1,144 @@
+/* Base styles */
+body {
+  font-family: 'Poppins', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background: linear-gradient(to right, lch(39.97% 70.84 291.02), #f41b1b);
+  margin: 0;
+  padding: 0;
+}
+
+.register-page {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  padding: 30px;
+  background: linear-gradient(to right, #1788df, #1758b9);
+}
+
+/* Two-column card */
+.register-card {
+  display: flex;
+  width: 1000px;
+  min-height: 700px;
+  background-color: #ffffff;
+  border-radius: 24px;
+  overflow: hidden;
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.1);
+}
+
+/* Image section */
+.register-image-section {
+  width: 50%;
+  background: url('../Assets/your-image.jpg') no-repeat center center;
+  background-size: cover;
+}
+
+/* Form section */
+.register-form-section {
+  width: 50%;
+  padding: 50px 40px;
+  background-color: #eeeced;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  overflow-y: auto;
+}
+
+/* Title */
+.register-title {
+  font-size: 32px;
+  font-weight: 700;
+  margin-bottom: 30px;
+  text-align: center;
+  color: #1f1f3d;
+}
+
+/* Form structure */
+.register-form {
+  display: flex;
+  flex-direction: column;
+}
+
+.register-label {
+  margin-top: 18px;
+  margin-bottom: 6px;
+  font-size: 16px;
+  font-weight: 600;
+  color: #333;
+}
+
+.register-input {
+  padding: 14px 16px;
+  font-size: 16px;
+  border-radius: 12px;
+  border: 1px solid #ccc;
+  background-color: #f9f9f9;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.register-input:focus {
+  outline: none;
+  border-color: #2575fc;
+  box-shadow: 0 0 0 4px rgba(37, 117, 252, 0.2);
+}
+
+/* Interests grid */
+.interests-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+  gap: 12px;
+  margin-top: 10px;
+  margin-bottom: 25px;
+}
+
+.interest-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: #eef5ff;
+  padding: 10px 14px;
+  border: 1px solid #6c97f3;
+  border-radius: 14px;
+  font-size: 18px;
+  color: #333333; 
+  transition: background 0.3s ease, transform 0.2s ease;
+  cursor: pointer;
+  user-select: none;
+}
+
+.interest-item:hover {
+  background-color: #74acf0;
+  transform: translateY(-1px);
+}
+
+/* Submit Button */
+.register-button {
+  margin-top: 25px;
+  padding: 16px;
+  font-size: 17px;
+  font-weight: 600;
+  background: linear-gradient(to right, #63a2e1, #2575fc);
+  color: white;
+  border: none;
+  border-radius: 14px;
+  cursor: pointer;
+  transition: background 0.3s ease, transform 0.2s ease;
+  box-shadow: 0 6px 14px rgba(37, 117, 252, 0.2);
+}
+
+.register-button:hover {
+  background: linear-gradient(to right, #5e0fd6, #1e5ce5);
+  transform: translateY(-1px);
+}
+
+/* Error Message */
+.register-error {
+  margin-top: 20px;
+  color: #d32f2f;
+  background-color: #fdecea;
+  padding: 12px;
+  border-radius: 10px;
+  font-size: 15px;
+  text-align: center;
+  border: 1px solid #f5c2c7;
+}
